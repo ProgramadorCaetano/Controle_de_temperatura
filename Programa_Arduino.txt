@@ -1,0 +1,40 @@
+#include <DHT.h>
+
+#define DHTPIN 7 // pino que está conectado o DHT11
+#define DHTTYPE DHT11 // define o tipo do sensor :DHT 11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+int pinOut = 8; //pino que está conectado o relé
+
+void setup(){
+Serial.begin(9600); //inicializa a comunicação serial
+pinMode(8, OUTPUT); // Para o Rele
+dht.begin(); // Para o dht11
+}
+
+void loop()
+{
+float h = dht.readHumidity(); //leitura de umidade
+float t = dht.readTemperature(); //leitura de temperatura
+
+// testa se retorno é valido, caso contrário algo está errado.
+if (isnan(t) || isnan(h))
+{
+Serial.println("Failed to read from DHT");
+}
+//envia pela serial os valores de temperatura e umidade
+Serial.print("Temperatura = ");
+Serial.println(t);
+Serial.println("-----------------");
+Serial.print("Humidade = ");
+Serial.println(h);
+Serial.println("-----------------");
+//troque por 'h' se o controle for feito com base na umidade
+if (t <= 25){
+digitalWrite(pinOut, HIGH);
+} else {
+digitalWrite(pinOut, LOW);
+}
+delay(500);
+}
