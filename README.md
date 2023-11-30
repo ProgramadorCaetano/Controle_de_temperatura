@@ -1,2 +1,2 @@
-# Controle_de_temperatura
+# Controle-de-temperatura
  Controle de temperatura com arduino
